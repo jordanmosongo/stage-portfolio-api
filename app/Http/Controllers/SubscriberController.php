@@ -3,82 +3,62 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Subscriber;
+use App\Models\Developer;
 
 class SubscriberController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+     * Display a listing of subscribers' email
+    */
     public function index()
     {
-        //
+        try {
+            $subscribers = Subscriber::all();
+            return response()->json([
+                'message' => 'success !',
+                'data' => $subscribers
+            ], Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => $th,
+            ], Response::HTTP_NOT_FOUND);
+        }
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Store a subscriber's email
      */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+     public function store (Request $request) {
+        try {
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+            $validator = Validator::make($request->all(), [
+               'subscriber.email' => 'required|unique:subscribers,email'
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'fail' => $validator->errors(),
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }       
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+             $developer = Developer::find(1);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+             $subscriber = new Subscriber();
+             $subscriber->email = $request->subscriber['email'];
+             $subscriber->developer()->associate($developer);
+             $subscriber->save();
+         
+             return response()->json([
+                 'message' => 'success !',
+                 'data' => $subscriber
+             ], Response::HTTP_CREATED);
+         } catch (\Throwable $th) {
+            return response()->json([
+                'error' => $th,
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+         }
+     }
 }

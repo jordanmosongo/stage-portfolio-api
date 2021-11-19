@@ -18,6 +18,6 @@ class Message extends Model
      * Get the visitor that sends messages
      */
     public function visitor () {
-        return $this->belongsTo(Visitor::class);
+        return $this->belongsTo(Visitor::class, 'visitorId');
     }
 }

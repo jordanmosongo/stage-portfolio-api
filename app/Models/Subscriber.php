@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Subscriber extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'email',
+    ];
+    
     /**
      * Get the developer that owns the subscriber
      */

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VisitorValidator extends FormRequest
+class MessagePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class VisitorValidator extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class VisitorValidator extends FormRequest
     public function rules()
     {
         return [
-            //
+           'message.name' => ['required', 'max:30'],
+            'message.email' => ['required', 'max:30'],
+            'message.phone' => ['required', 'max:20'],
+            'message.object' => ['required', 'max:50'],
+            'message.content' => ['required', 'max:255'], 
         ];
     }
 }

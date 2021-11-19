@@ -33,7 +33,13 @@ class DeveloperController extends Controller
      */
     public function show($id)
     {
-        $existingDeveloper = Developer::with(['technologies'])->find($id);
+        $existingDeveloper = Developer::with([
+            'address',
+            'technologies', 
+            'projects', 
+            'socialNetworks', 
+            'projects.technologies'
+            ])->find($id);
         if ($existingDeveloper) {
             return $existingDeveloper;
         }

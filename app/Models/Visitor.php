@@ -8,10 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Visitor extends Model
 {
     use HasFactory;
+
     /**
-     * Get messages sent by the visitor
+     * mass assignable attributes
+     */
+
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+    ];
+
+    /**
+     * link messages to the visitor
      */
     public function messages () {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Message::class, 'visitorID');
     }
 }

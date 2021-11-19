@@ -6,6 +6,10 @@ use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\TechnologyController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SocialNetworkController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\SubscriberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,8 +32,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/visitors', [VisitorController::class, 'index'] );
 Route::prefix('/visitor')->group( function () {
-    Route::post('/store', [VisitorController::class, 'store']);
-    Route::put('/{id}', [VisitorController::class, 'update']);
+    Route::get('/{id}', [VisitorController::class, 'show']);
     Route::delete('/{id}', [VisitorController::class, 'destroy']);
     }
 );
@@ -38,12 +41,11 @@ Route::prefix('/visitor')->group( function () {
  * Manage routes for address
  */
 
-Route::get('/addresses', [AddressController::class, 'index']);
 Route::prefix('/address')->group( function () {
+    Route::get('/{id}', [AddressController::class, 'show']);
     Route::post('/store', [AddressController::class, 'store']);
     Route::put('/{id}', [AddressController::class, 'update']);
-    Route::delete('/{id}', [AddressController::class, 'destroy']);
-    }
+  }
 );
 
 /**
@@ -67,6 +69,67 @@ Route::prefix('/technology')->group( function () {
     Route::post('/store', [TechnologyController::class, 'store']);
     Route::put('/{id}', [TechnologyController::class, 'update']);
     Route::delete('/{id}', [TechnologyController::class, 'destroy']);
+}
+);
+
+/**
+ * Manage routes for project
+ */
+
+Route::get('/projects', [ProjectController::class, 'index']);
+Route::prefix('/project')->group( function () {
+    Route::get('/{id}', [ProjectController::class, 'show']);
+    Route::post('/store', [ProjectController::class, 'store']);
+    Route::put('/{id}', [ProjectController::class, 'update']);
+    Route::delete('/{id}', [ProjectController::class, 'destroy']);
+}
+);
+
+/**
+ * Manage routes for social network
+ */
+
+Route::get('/socialnetworks', [SocialNetworkController::class, 'index']);
+Route::prefix('/socialnetwork')->group( function () {
+    Route::get('/{id}', [SocialNetworkController::class, 'show']);
+    Route::post('/store', [SocialNetworkController::class, 'store']);
+    Route::put('/{id}', [SocialNetworkController::class, 'update']);
+    Route::delete('/{id}', [SocialNetworkController::class, 'destroy']);
+}
+);
+
+/**
+ * Manage routes for messages
+ */
+
+Route::get('/messages', [MessageController::class, 'index']);
+Route::prefix('/message')->group( function () {
+    //Route::get('/{id}', [MessageController::class, 'show']);
+    Route::post('/store', [MessageController::class, 'store']);
+    //Route::delete('/{id}', [MessageController::class, 'destroy']);
+}
+);
+
+/**
+ * Manage routes for visitor
+ */
+
+Route::get('/visitors', [VisitorController::class, 'index']);
+Route::prefix('/visitor')->group( function () {
+    Route::get('/{id}', [VisitorController::class, 'show']);
+    //Route::delete('/{id}', [VisitorController::class, 'destroy']);
+}
+);
+
+/**
+ * Manage routes for subscriber
+ */
+
+Route::get('/subscribers', [SubscriberController::class, 'index']);
+Route::prefix('/subscriber')->group( function () {
+    //Route::get('/{id}', [SubscriberController::class, 'show']);
+    Route::post('/store', [SubscriberController::class, 'store']);
+    //Route::delete('/{id}', [SubscriberController::class, 'destroy']);
 }
 );
 

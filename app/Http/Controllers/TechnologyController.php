@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use App\Models\Technology;
 use App\Models\Developer;
 
@@ -37,23 +36,20 @@ class TechnologyController extends Controller
         $technology->title = $request->technology['title'];
         $technology->image = $request->technology['image'];
         
-        DB::beginTransaction();
         try {
             $existingDeveloper = Developer::find(1);
             
             $technology->developer()->associate($existingDeveloper);
             $technology->save();
 
-            DB::commit();
             return response()->json([
                 'message' => 'technology saved successfully !',
                 'data' => $technology
-            ], 201);
+            ], Response::HTTP_CREATED );
         } catch (\Throwable $th) {
-            DB::rollback();
             return response()->json([
                 'error' => $th
-            ], );
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }    
 
     }
@@ -68,11 +64,11 @@ class TechnologyController extends Controller
             return response()->json([
                 'message' => 'success !',
                 'data' => $existingTechnology
-            ], 200);
+            ], Response::HTTP_OK);
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => $th,
-            ], 404);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -81,25 +77,21 @@ class TechnologyController extends Controller
     */
     public function update(Request $request, $id)
     {
-        DB::beginTransaction();
-
         try {
             $existingTechnology = Technology::find($id);
             $existingTechnology->title = $request->technology['title'];
             $existingTechnology->image = $request->technology['image'];
 
             $existingTechnology->save();
-            DB::commit();
             return response()->json([
                 'message' => 'technology updated successfully !',
                 'data' => $existingTechnology
-            ], 201);
+            ], Response::HTTP_OK);
             
         } catch (\Throwable $th) {
-            DB::rollback();
             return response()->json([
                 'error' => $th,
-            ], 451);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }        
     }
     
@@ -112,16 +104,13 @@ class TechnologyController extends Controller
 
         // Technology::Where(["id" => 1])->update(["label" => "test"])
 
-        DB::beginTransaction();
         try {
             $existingTechnology = Technology::find($id);
             $existingTechnology->delete();
-            DB::commit();
             return response()->json([
                 'message' => 'technology deleted successfully !',
             ], Response::HTTP_STATUS_OK);
         } catch (\Throwable $th) {
-            DB::rollback();
             return response()->json([
                 'error' => $th,
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
