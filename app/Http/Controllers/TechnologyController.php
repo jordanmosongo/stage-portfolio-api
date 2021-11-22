@@ -10,7 +10,7 @@ use App\Models\Developer;
 class TechnologyController extends Controller
 {
     /**
-     * Display a listing of the technologies.
+     * Display a list of technologies
     */
     public function index()
     {
@@ -28,16 +28,16 @@ class TechnologyController extends Controller
     }
 
     /**
-     * create a new technology and store it in storage
+     * store a new technology
     */
-    public function store(Request $request)
+    public function store(Request $request, $developer_id)
     {
         $technology = new Technology();
         $technology->title = $request->technology['title'];
         $technology->image = $request->technology['image'];
         
         try {
-            $existingDeveloper = Developer::find(1);
+            $existingDeveloper = Developer::find($developer_id);
             
             $technology->developer()->associate($existingDeveloper);
             $technology->save();
@@ -100,13 +100,8 @@ class TechnologyController extends Controller
     */
     public function destroy($id)
     {
-        // Technology::Where(["id" => 1])->delete()
-
-        // Technology::Where(["id" => 1])->update(["label" => "test"])
-
         try {
-            $existingTechnology = Technology::find($id);
-            $existingTechnology->delete();
+            Technology::Where(["id" => $id])->delete();
             return response()->json([
                 'message' => 'technology deleted successfully !',
             ], Response::HTTP_STATUS_OK);

@@ -15,7 +15,7 @@ class AddressController extends Controller
     public function show($id) {
         try {
             $address = Address::where(['id' => $id])->get();
-            return response->json([
+            return response()->json([
                 'message' => 'success !',
                 'data' => $address
             ], Response::HTTP_OK);
@@ -30,7 +30,7 @@ class AddressController extends Controller
      * create a new address and store it in storage
     */
 
-    public function store(Request $request)
+    public function store(Request $request, $developer_id)
     {
         $address = new Address();
         $address->country = $request->address["country"];
@@ -42,7 +42,7 @@ class AddressController extends Controller
         $address->reference = $request->address["reference"];       
         
         try {
-            $existingDeveloper = Developer::find(1);            
+            $existingDeveloper = Developer::find($developer_id);            
             $address->developer()->associate($existingDeveloper);
             $address->save();
 

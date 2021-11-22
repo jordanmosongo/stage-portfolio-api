@@ -32,7 +32,7 @@ class SubscriberController extends Controller
      * Store a subscriber's email
      */
 
-     public function store (Request $request) {
+     public function store (Request $request, $developer_id) {
         try {
 
             $validator = Validator::make($request->all(), [
@@ -44,7 +44,7 @@ class SubscriberController extends Controller
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }       
 
-             $developer = Developer::find(1);
+             $developer = Developer::find($developer_id);
 
              $subscriber = new Subscriber();
              $subscriber->email = $request->subscriber['email'];

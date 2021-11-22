@@ -19,8 +19,6 @@ class CreateSocialNetworksTable extends Migration
             $table->string('url');
             $table->string('image');
             $table->timestamps();
-            // $table->unsignedBigInteger('developer_id');
-            // $table->foreign('developer_id')->references('id')->on('developers')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('developer_id')
                     ->constrained('developers')
                     ->onDelete('cascade')

@@ -19,7 +19,7 @@ class Technology extends Model
      * Get made projects with the technology
      */
     public function projects () {
-        //return $this->belongsToMany(Project::class);
-        return $this->hasMany(ProjectTechnology::class);
+        return $this->belongsToMany(Project::class);
+        //return $this->hasMany(ProjectTechnology::class);
     }
 }

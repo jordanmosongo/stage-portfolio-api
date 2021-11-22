@@ -32,16 +32,16 @@ class MessageController extends Controller
     }
 
     /**
-     * store a message with all its dependances
-     */
+     * store a message
+    */
 
-    public function store (Request $request) {
+    public function store (Request $request, $developer_id) {
 
          
         DB::beginTransaction();
         
         try {
-
+            
             $validator = Validator::make($request->all(), [
                 'message.name' => 'required|max:30',
                 'message.email' => 'required',
@@ -65,7 +65,7 @@ class MessageController extends Controller
                 ]);
             }
                        
-            $existingDeveloper = Developer::find(1);
+            $existingDeveloper = Developer::find($developer_id);
 
             $message = new Message();
             $message->objet = $request->message['object'];
@@ -83,8 +83,6 @@ class MessageController extends Controller
             
 
         } catch (\Throwable $th) {
-
-            //rollback transaction
 
             DB::rollback();
             

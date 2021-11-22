@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\Schema;
 class CreateTechnologiesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migrations
      *
      * @return void
      */
-    public function up()
+    
+     public function up()
     {
         Schema::create('technologies', function (Blueprint $table) {
             $table->id();
@@ -21,8 +22,7 @@ class CreateTechnologiesTable extends Migration
                     ->constrained('developers')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
-            $table->timestamps();
-     
+            $table->timestamps();     
         });
     }
 

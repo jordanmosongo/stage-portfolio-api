@@ -5,21 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class Count extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['email', 'password'];
+
     /**
-     * Get the develop that receives messages
+     * Get the developer that owns the count
      */
-        
+    
     public function developer () {
         return $this->belongsTo(Developer::class);
-    }
-    /**
-     * Get the visitor that sends messages
-     */
-    public function visitor () {
-        return $this->belongsTo(Visitor::class, 'visitorId');
     }
 }

@@ -33,20 +33,25 @@ class ProjectController extends Controller
      * create a new project and store it in storage
     */
 
-    public function store(Request $request)
+    public function store(Request $request, $developer_id)
     {
         $project = new Project();
         $project->title = $request->project['title'];
         $project->description = $request->project['description'];
         $project->image = $request->project['image'];
-        $project->url = $request->project['url'];
-        //$project->technologies()->attach($request->project['technologiesIds']);
-        
+        $project->url = $request->project['url'];  
+        $project->developer_id = $developer_id;    
+                
         try {
-            $existingDeveloper = Developer::find(1);
+            //$existingDeveloper = Developer::find($developer_id);           
             
-            $project->developer()->associate($existingDeveloper);
-            $project->save();
+            $savedProject = $project->save();
+            //$project->developer()->associate($existingDeveloper);
+            if($savedProject) {
+                $project = Project::all()->last();
+                $project->technologies()->sync($request->project['technologies_id']);
+            }
+            //$project->technologies()->sync($request->project['technologies_id']);
 
             return response()->json([
                 'message' => 'project created successfully !',

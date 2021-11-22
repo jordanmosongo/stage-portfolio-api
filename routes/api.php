@@ -43,7 +43,7 @@ Route::prefix('/visitor')->group( function () {
 
 Route::prefix('/address')->group( function () {
     Route::get('/{id}', [AddressController::class, 'show']);
-    Route::post('/store', [AddressController::class, 'store']);
+    Route::post('/store/{developer_id}', [AddressController::class, 'store']);
     Route::put('/{id}', [AddressController::class, 'update']);
   }
 );
@@ -51,7 +51,7 @@ Route::prefix('/address')->group( function () {
 /**
  * Manage routes for developer
  */
-
+Route::get('/developers', [DeveloperController::class, 'index']);
 Route::prefix('/developer')->group( function () {
     Route::get('/{id}', [DeveloperController::class, 'show']);
     Route::post('/store', [DeveloperController::class, 'store']);
@@ -66,7 +66,7 @@ Route::prefix('/developer')->group( function () {
 Route::get('/technologies', [TechnologyController::class, 'index']);
 Route::prefix('/technology')->group( function () {
     Route::get('/{id}', [TechnologyController::class, 'show']);
-    Route::post('/store', [TechnologyController::class, 'store']);
+    Route::post('/store/{developer_id}', [TechnologyController::class, 'store']);
     Route::put('/{id}', [TechnologyController::class, 'update']);
     Route::delete('/{id}', [TechnologyController::class, 'destroy']);
 }
@@ -79,7 +79,7 @@ Route::prefix('/technology')->group( function () {
 Route::get('/projects', [ProjectController::class, 'index']);
 Route::prefix('/project')->group( function () {
     Route::get('/{id}', [ProjectController::class, 'show']);
-    Route::post('/store', [ProjectController::class, 'store']);
+    Route::post('/store/{developer_id}', [ProjectController::class, 'store']);
     Route::put('/{id}', [ProjectController::class, 'update']);
     Route::delete('/{id}', [ProjectController::class, 'destroy']);
 }
@@ -92,7 +92,7 @@ Route::prefix('/project')->group( function () {
 Route::get('/socialnetworks', [SocialNetworkController::class, 'index']);
 Route::prefix('/socialnetwork')->group( function () {
     Route::get('/{id}', [SocialNetworkController::class, 'show']);
-    Route::post('/store', [SocialNetworkController::class, 'store']);
+    Route::post('/store/{developer_id}', [SocialNetworkController::class, 'store']);
     Route::put('/{id}', [SocialNetworkController::class, 'update']);
     Route::delete('/{id}', [SocialNetworkController::class, 'destroy']);
 }
@@ -105,7 +105,7 @@ Route::prefix('/socialnetwork')->group( function () {
 Route::get('/messages', [MessageController::class, 'index']);
 Route::prefix('/message')->group( function () {
     //Route::get('/{id}', [MessageController::class, 'show']);
-    Route::post('/store', [MessageController::class, 'store']);
+    Route::post('/store/{developer_id}', [MessageController::class, 'store']);
     //Route::delete('/{id}', [MessageController::class, 'destroy']);
 }
 );
@@ -128,7 +128,7 @@ Route::prefix('/visitor')->group( function () {
 Route::get('/subscribers', [SubscriberController::class, 'index']);
 Route::prefix('/subscriber')->group( function () {
     //Route::get('/{id}', [SubscriberController::class, 'show']);
-    Route::post('/store', [SubscriberController::class, 'store']);
+    Route::post('/store/{developer_id}', [SubscriberController::class, 'store']);
     //Route::delete('/{id}', [SubscriberController::class, 'destroy']);
 }
 );

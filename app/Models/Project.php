@@ -18,8 +18,8 @@ class Project extends Model
      * Get technologies used in the project 
      */
     public function technologies () {
-        //return $this->belongsToMany(Technology::class);
-       return $this->hasMany(ProjectTechnology::class);
+        return $this->belongsToMany(Technology::class);
+       //return $this->hasMany(ProjectTechnology::class);
     }
    
 }

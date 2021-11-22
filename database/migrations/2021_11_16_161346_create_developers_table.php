@@ -19,11 +19,15 @@ class CreateDevelopersTable extends Migration
             $table->string('lastname');
             $table->string('firstname');
             $table->string('role');
-            $table->string('description');
-            $table->string('lastword');
+            $table->text('description');
+            $table->text('education');
+            $table->text('training');
+            $table->text('language');
+            $table->text('lastword');
             $table->string('phone');
             $table->string('email');
             $table->string('photo');
+            $table->string('aboutphoto');
             $table->timestamps();
         });
     }

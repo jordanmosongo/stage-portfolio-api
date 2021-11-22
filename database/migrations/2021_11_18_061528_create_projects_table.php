@@ -18,7 +18,8 @@ class CreateProjectsTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('image');
-            $table->string('url')->nullable();  
+            $table->string('url')->nullable();
+            $table->boolean('istop')->default(false);  
             $table->foreignId('developer_id')
                     ->constrained('developers')
                     ->onDelete('cascade')

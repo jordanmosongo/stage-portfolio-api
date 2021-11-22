@@ -31,7 +31,7 @@ class SocialNetworkController extends Controller
      * create a new social network and store it in storage
     */
 
-    public function store(Request $request)
+    public function store(Request $request, $developer_id)
     {
         $socialNetwork = new SocialNetwork();
         $socialNetwork->title = $request->socialNetwork['title'];
@@ -39,7 +39,7 @@ class SocialNetworkController extends Controller
         $socialNetwork->url = $request->socialNetwork['url'];
         
         try {
-            $existingDeveloper = Developer::find(1);
+            $existingDeveloper = Developer::find($developer_id);
             
             $socialNetwork->developer()->associate($existingDeveloper);
             $socialNetwork->save();
