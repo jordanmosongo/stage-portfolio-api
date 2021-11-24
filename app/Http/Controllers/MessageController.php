@@ -36,9 +36,8 @@ class MessageController extends Controller
     */
 
     public function store (Request $request, $developer_id) {
-
          
-        DB::beginTransaction();
+         DB::beginTransaction();
         
         try {
             
@@ -46,39 +45,48 @@ class MessageController extends Controller
                 'message.name' => 'required|max:30',
                 'message.email' => 'required',
                 'message.phone' => 'required',
-                'message.object' => 'required|max:50',
+                'message.objet' => 'required|max:50',
                 'message.content' => 'required|max:255'
              ]);
              if ($validator->fails()) {
                  return response()->json([
                      'fail' => $validator->errors(),
-                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
+                    ], Response::HTTP_UNPROCESSABLE_ENTITY);
              }
 
-            $newVisitor;
-            $existVisitor = Visitor::where(['email' => $request->message['email']])->first();
-            if(!$existVisitor) {
-                $newVisitor = Visitor::create([
-                    'name' => $validated->message['name'],
-                    'email' => $validated->message['email'],
-                    'phone' => $validated->message['phone']
-                ]);
-            }
-                       
-            $existingDeveloper = Developer::find($developer_id);
+            // $newVisitor;
+            // $existVisitor = Visitor::all()->where('email', '=', $request->message['email'])->first();
+            // $newVisitorId = $existVisitor->id;            
+            // if(!$existVisitor) {
+            //     $newVisitor = Visitor::create([
+            //         'name' => $request->message['name'],
+            //         'email' => $request->message['email'],
+            //         'phone' => $request->message['phone']
+            //     ]);
+            //     $newVisitorId = $newVisitor->id;
+            // }
 
+            $newVisitor = Visitor::create([
+                'name' => $request->message['name'],
+                'email' => $request->message['email'],
+                'phone' => $request->message['phone']
+            ]);
+            $newVisitorId = $newVisitor->id;
+                  
             $message = new Message();
-            $message->objet = $request->message['object'];
+            $message->objet = $request->message['objet'];
             $message->content = $request->message['content'];
-            $message->developer()->associate($existingDeveloper);
-            $message->visitor()->associate($existVisitor ? $existVisitor : $newVisitor);
+            $message->developer_id = (int)$developer_id;
+            $message->visitorId = $newVisitorId;
             $message->save();
 
             DB::commit();
 
             return response()->json([
                 'message' => 'message sent successfully !',
-                'data' => $message
+                'data' => $newVisitor,
+                'visitorId' => $newVisitorId,
+                'developer_id' => (int)$developer_id
             ], Response::HTTP_CREATED);
             
 

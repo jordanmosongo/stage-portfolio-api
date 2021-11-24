@@ -11,7 +11,7 @@ use App\Models\Developer;
 class ProjectController extends Controller
 {
     /**
-     * Display a listing of the projects.
+     * Display a list of projects.
     */
 
     public function index()
@@ -30,6 +30,25 @@ class ProjectController extends Controller
     }
 
     /**
+     * Get a specified project
+     */
+
+    public function show($id) {
+        try {
+            $project = Project::find($id);
+            return response()->json([
+                'message' => 'success !',
+                'project' => $project
+            ], Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'failed !',
+                'error' => $th,
+            ], Response::HTTP_NOT_FOUND);
+        }
+    }
+
+    /**
      * create a new project and store it in storage
     */
 
@@ -40,19 +59,16 @@ class ProjectController extends Controller
         $project->description = $request->project['description'];
         $project->image = $request->project['image'];
         $project->url = $request->project['url'];  
+        $project->istop = $request->project['istop'];
         $project->developer_id = $developer_id;    
                 
         try {
-            //$existingDeveloper = Developer::find($developer_id);           
-            
+              
             $savedProject = $project->save();
-            //$project->developer()->associate($existingDeveloper);
             if($savedProject) {
                 $project = Project::all()->last();
                 $project->technologies()->sync($request->project['technologies_id']);
             }
-            //$project->technologies()->sync($request->project['technologies_id']);
-
             return response()->json([
                 'message' => 'project created successfully !',
                 'data' => $project
@@ -77,6 +93,7 @@ class ProjectController extends Controller
                 'description' => $request->project['description'],
                 'image' => $request->project['image'],
                 'url' => $request->project['url'],
+                'istop' => $request->project['istop']
             ]);
            
             return response()->json([

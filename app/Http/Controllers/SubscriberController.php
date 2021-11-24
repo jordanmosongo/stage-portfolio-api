@@ -11,8 +11,9 @@ use App\Models\Developer;
 class SubscriberController extends Controller
 {
     /**
-     * Display a listing of subscribers' email
+    * Display a listing of subscribers' email
     */
+    
     public function index()
     {
         try {
@@ -29,8 +30,8 @@ class SubscriberController extends Controller
     }
 
     /**
-     * Store a subscriber's email
-     */
+    * Store a subscriber's email
+    */
 
      public function store (Request $request, $developer_id) {
         try {
