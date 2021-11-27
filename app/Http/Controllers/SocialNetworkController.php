@@ -6,26 +6,29 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\SocialNetwork;
 use App\Models\Developer;
+use App\Services\SocialNetworkService;
 
 class SocialNetworkController extends Controller
 {
+    /**
+     * @var socialNetworkService
+     */
+    protected $socialNetworkService;
+
+    /**
+     * create a new instance of SocialNetworkSerice
+     */
+    public function __construct(SocialNetworkService $socialNetworkService) {
+        $this->socialNetworkService = $socialNetworkService;
+    }
+
    /**
      * Display a listing of the social networks.
     */
 
     public function index()
     {
-        try {
-            $socialNetworks = SocialNetwork::all();
-            return response()->json([
-                'message' => 'success !',
-                'data' => $socialNetworks
-            ], Response::HTTP_OK);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th,
-            ], Response::HTTP_NOT_FOUND);
-        }
+        return $this->socialNetworkService->getAll();
     }
     /**
      * create a new social network and store it in storage
@@ -62,22 +65,23 @@ class SocialNetworkController extends Controller
 
     public function update(Request $request, $id)
     {
-        try {
-            $socialNetwork = SocialNetwork::Where(["id" => $id])->update([
-                'title' => $request->socialNetwork['title'],
-                'image' => $request->socialNetwork['image'],
-                'url' => $request->socialNetwork['url'],
-            ]);
+        return $this->socialNetworkService->update($request->developer, $id);
+        // try {
+        //     $socialNetwork = SocialNetwork::Where(["id" => $id])->update([
+        //         'title' => $request->socialNetwork['title'],
+        //         'image' => $request->socialNetwork['image'],
+        //         'url' => $request->socialNetwork['url'],
+        //     ]);
            
-            return response()->json([
-                'message' => 'socialNetwork updated successfully !',
-                'data' => $socialNetwork
-            ], Response::HTTP_OK);
+        //     return response()->json([
+        //         'message' => 'socialNetwork updated successfully !',
+        //         'data' => $socialNetwork
+        //     ], Response::HTTP_OK);
             
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th,
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }        
+        // } catch (\Throwable $th) {
+        //     return response()->json([
+        //         'error' => $th,
+        //     ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        // }        
     }
 }

@@ -6,25 +6,37 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Technology;
 use App\Models\Developer;
+use App\Services\TechnologyService;
 
 class TechnologyController extends Controller
 {
+    /**
+     * @var technologyService
+     */
+    protected $technologyService;
+
+    /**
+     * create a new instance of TechnologyService
+     */
+
+    public function __construct(TechnologyService $technologyService) {
+        $this->technologyService = $technologyService;
+    }
+
     /**
      * Display a list of technologies
     */
     public function index()
     {
-        try {
-            $technologies = Technology::all();
-            return response()->json([
-                'message' => 'success !',
-                'data' => $technologies
-            ], 200);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th,
-            ], 404);
-        }
+        return $this->technologyService->getAll();
+    }
+
+    /**
+     * Display the specified technology.
+    */
+    public function show($id)
+    {
+        return $this->technologyService->findById($id);
     }
 
     /**
@@ -32,6 +44,7 @@ class TechnologyController extends Controller
     */
     public function store(Request $request, $developer_id)
     {
+        //  return $this->technologyService->save($request->technology, $developer_id);
         $technology = new Technology();
         $technology->title = $request->technology['title'];
         $technology->image = $request->technology['image'];
@@ -52,47 +65,14 @@ class TechnologyController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }    
 
-    }
-
-    /**
-     * Display the specified technology.
-    */
-    public function show($id)
-    {
-        try {
-            $existingTechnology = Technology::find($id);
-            return response()->json([
-                'message' => 'success !',
-                'data' => $existingTechnology
-            ], Response::HTTP_OK);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th,
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
+    }    
 
     /**
      * Update the specified technology in storage.
     */
     public function update(Request $request, $id)
     {
-        try {
-            $existingTechnology = Technology::find($id);
-            $existingTechnology->title = $request->technology['title'];
-            $existingTechnology->image = $request->technology['image'];
-
-            $existingTechnology->save();
-            return response()->json([
-                'message' => 'technology updated successfully !',
-                'data' => $existingTechnology
-            ], Response::HTTP_OK);
-            
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th,
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }        
+        return $this->technologyService->update($request->technology, $id);        
     }
     
     /**
@@ -100,16 +80,6 @@ class TechnologyController extends Controller
     */
     public function destroy($id)
     {
-        try {
-            Technology::Where(["id" => $id])->delete();
-            return response()->json([
-                'message' => 'technology deleted successfully !',
-            ], Response::HTTP_STATUS_OK);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th,
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-        
+        return $this->technologyService->delete($id);         
     }
 }

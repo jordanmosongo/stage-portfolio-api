@@ -7,26 +7,29 @@ use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use App\Models\Project;
 use App\Models\Developer;
+use App\Services\ProjectService;
 
 class ProjectController extends Controller
 {
+    /**
+     * @var projectService
+     */
+    protected $projectService;
+
+    /**
+     * Create a new instance of projectService
+     */
+    public function __construct(ProjectService $projectService) {
+        $this->projectService = $projectService;
+    }
+
     /**
      * Display a list of projects.
     */
 
     public function index()
     {
-        try {
-            $projects = Project::all();
-            return response()->json([
-                'message' => 'success !',
-                'data' => $projects
-            ], Response::HTTP_OK);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th,
-            ], Response::HTTP_NOT_FOUND);
-        }
+        return $this->projectService->getAll();
     }
 
     /**
@@ -34,33 +37,23 @@ class ProjectController extends Controller
      */
 
     public function show($id) {
-        try {
-            $project = Project::find($id);
-            return response()->json([
-                'message' => 'success !',
-                'project' => $project
-            ], Response::HTTP_OK);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'failed !',
-                'error' => $th,
-            ], Response::HTTP_NOT_FOUND);
-        }
+        return $this->projectService->findById($id);
     }
 
     /**
      * create a new project and store it in storage
     */
 
-    public function store(Request $request, $developer_id)
+    public function store(Request $request)
     {
+        //  return $this->projectService->save($request->project);
         $project = new Project();
         $project->title = $request->project['title'];
         $project->description = $request->project['description'];
         $project->image = $request->project['image'];
         $project->url = $request->project['url'];  
         $project->istop = $request->project['istop'];
-        $project->developer_id = $developer_id;    
+        $project->developer_id = $request->project['developer_id'];    
                 
         try {
               
@@ -87,25 +80,7 @@ class ProjectController extends Controller
 
     public function update(Request $request, $id)
     {
-        try {
-            $updatedProject = Project::Where(["id" => $id])->update([
-                'title' => $request->project['title'],
-                'description' => $request->project['description'],
-                'image' => $request->project['image'],
-                'url' => $request->project['url'],
-                'istop' => $request->project['istop']
-            ]);
-           
-            return response()->json([
-                'message' => 'project updated successfully !',
-                'data' => $updatedProject
-            ], Response::HTTP_OK);
-            
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th,
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }        
+        return $this->projectService->update($request->project, $id);               
     }
 
 }

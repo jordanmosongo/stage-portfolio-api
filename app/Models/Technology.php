@@ -9,6 +9,8 @@ class Technology extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'image', 'developer_id'];
+
     /**
      * Get the developer that owns the technology
      */

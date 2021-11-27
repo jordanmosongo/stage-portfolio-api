@@ -7,26 +7,29 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Subscriber;
 use App\Models\Developer;
+use App\Services\SubscriberService;
 
 class SubscriberController extends Controller
 {
+    /**
+     * @var subscriberService
+     */
+    protected $subscriberService;
+
+    /**
+     * create a new instance of SubscriberService
+     */
+    public function __construct(SubscriberService $subscriberService) {
+        $this->subscriberService = $subscriberService;
+    }
+
     /**
     * Display a listing of subscribers' email
     */
     
     public function index()
     {
-        try {
-            $subscribers = Subscriber::all();
-            return response()->json([
-                'message' => 'success !',
-                'data' => $subscribers
-            ], Response::HTTP_OK);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th,
-            ], Response::HTTP_NOT_FOUND);
-        }
+        return $this->subscriberService->getAll();
     }
 
     /**
@@ -34,16 +37,15 @@ class SubscriberController extends Controller
     */
 
      public function store (Request $request, $developer_id) {
-        try {
-
-            $validator = Validator::make($request->all(), [
-               'subscriber.email' => 'required|unique:subscribers,email'
-            ]);
-            if ($validator->fails()) {
-                return response()->json([
-                    'fail' => $validator->errors(),
-                ], Response::HTTP_UNPROCESSABLE_ENTITY);
-            }       
+        $validator = Validator::make($request->all(), [
+            'subscriber.email' => 'required|unique:subscribers,email'
+         ]);
+         if ($validator->fails()) {
+             return response()->json([
+                 'fail' => $validator->errors(),
+             ], Response::HTTP_UNPROCESSABLE_ENTITY);
+         } 
+        try {           
 
              $developer = Developer::find($developer_id);
 

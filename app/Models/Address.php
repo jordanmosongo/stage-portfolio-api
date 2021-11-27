@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Address extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'country', 'town', 'commune', 'quarter', 'number',
+        'street', 'reference', 'developer_id'
+    ];
     
      /**
      * Get the developer that owns the address

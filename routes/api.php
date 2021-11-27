@@ -43,7 +43,7 @@ Route::prefix('/visitor')->group( function () {
 
 Route::prefix('/address')->group( function () {
     Route::get('/{id}', [AddressController::class, 'show']);
-    Route::post('/store/{developer_id}', [AddressController::class, 'store']);
+    Route::post('/store', [AddressController::class, 'store']);
     Route::put('/{id}', [AddressController::class, 'update']);
   }
 );
@@ -79,7 +79,7 @@ Route::prefix('/technology')->group( function () {
 Route::get('/projects', [ProjectController::class, 'index']);
 Route::prefix('/project')->group( function () {
     Route::get('/{id}', [ProjectController::class, 'show']);
-    Route::post('/store/{developer_id}', [ProjectController::class, 'store']);
+    Route::post('/store', [ProjectController::class, 'store']);
     Route::put('/{id}', [ProjectController::class, 'update']);
     Route::delete('/{id}', [ProjectController::class, 'destroy']);
 }

@@ -2,34 +2,34 @@
 namespace App\Services;
 
 use Illuminate\Http\Response;
-use App\Repositories\DeveloperRepository;
-use App\Interfaces\DeveloperInterface;
+use App\Repositories\ProjectRepository;
+use App\Interfaces\ProjectInterface;
 
 
-class DeveloperService implements DeveloperInterface {
-
-    /**
-     * @var developerRepository
-     */
-    protected $developerRepository;
+class ProjectService implements ProjectInterface {
 
     /**
-     * create a new instance of DeveloperRepository in constructor
-     * @param DeveloperRepository $developerRepository
+     * @var projectRepository
      */
-    public function __construct(DeveloperRepository $developerRepository) {
-        $this->developerRepository = $developerRepository;
+    protected $projectRepository;
+
+    /**
+     * create a new instance of ProjectRepository in constructor
+     * @param ProjectRepository $projectRepository
+     */
+    public function __construct(ProjectRepository $projectRepository) {
+        $this->projectRepository = $projectRepository;
     }
 
     /**
-     * Get all developers
+     * Get all Projects
      */
     public function getAll() {
         try {
-            $developers = $this->developerRepository->getAll();
+            $projects = $this->projectRepository->getAll();
             return response()->json([
                 'message' => 'success !',
-                'data' => $developers
+                'data' => $projects
             ], Response::HTTP_OK);
         } catch (\Throwable $th) {
             return response()->json([
@@ -40,16 +40,16 @@ class DeveloperService implements DeveloperInterface {
     }
 
     /**
-     * get a specific developer by id
+     * get a specific project by id
      * @param $id
      */
 
     public function findById($id) {
         try {
-            $developer = $this->developerRepository->findById($id);
+            $project = $this->projectRepository->findById($id);
             return response()->json([
                 'message' => 'success !',
-                'data' => $developer
+                'data' => $project
             ], Response::HTTP_OK);
         } catch (\Throwable $th) {
             return response()->json([
@@ -60,16 +60,16 @@ class DeveloperService implements DeveloperInterface {
     }
 
     /**
-     * Save a new developer
-     * @param $developer
+     * Save a new Project
+     * @param $Project
      */
 
-    public function save($developer) {
+    public function save($project) {
         try {
-            $developer = $this->developerRepository->save($developer);
+            $project = $this->projectRepository->save($project);
             return response()->json([
                 'message' => 'success !',
-                'data' => $developer
+                'data' => $Project
             ], Response::HTTP_CREATED);
         } catch (\Throwable $th) {
             return response()->json([
@@ -80,16 +80,16 @@ class DeveloperService implements DeveloperInterface {
     }
 
     /**
-     * Update an existing developer
-     * @param $developer and his $id
+     * Update an existing Project
+     * @param $Project and his $id
      */
 
-    public function update($developer, $id) {
+    public function update($project, $id) {
         try {
-            $developer = $this->developerRepository->update($developer, $id);
+            $project = $this->projectRepository->update($project, $id);
             return response()->json([
                 'message' => 'success !',
-                'data' => $developer
+                'data' => $project
             ], Response::HTTP_CREATED);
         } catch (\Throwable $th) {
             return response()->json([
