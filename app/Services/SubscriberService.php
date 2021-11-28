@@ -41,9 +41,10 @@ class SubscriberService implements SubscriberInterface {
     /**
      * save a new subscriber
      */
-    public function save($subscriber) {
+    public function save($subscriber, $developer_id) {
+        
         try {
-            $subscriber = $this->subsciberRepository->save($subscriber);
+            $subscriber = $this->subscriberRepository->save($subscriber, $developer_id);
             return response()->json([
                 'message' => 'success !',
                 'data' => $subscriber

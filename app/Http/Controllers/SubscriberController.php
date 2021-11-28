@@ -45,23 +45,6 @@ class SubscriberController extends Controller
                  'fail' => $validator->errors(),
              ], Response::HTTP_UNPROCESSABLE_ENTITY);
          } 
-        try {           
-
-             $developer = Developer::find($developer_id);
-
-             $subscriber = new Subscriber();
-             $subscriber->email = $request->subscriber['email'];
-             $subscriber->developer()->associate($developer);
-             $subscriber->save();
-         
-             return response()->json([
-                 'message' => 'success !',
-                 'data' => $subscriber
-             ], Response::HTTP_CREATED);
-         } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th,
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-         }
-     }
+         return $this->subscriberService->save($request->subscriber, $developer_id);
+    }
 }

@@ -30,8 +30,11 @@ class SubscriberRepository implements SubscriberInterface {
      * create a new subscriber
      */
 
-    public function save($subscriber) {
-        return $this->subscriber->create($subscriber);
+    public function save($subscriber, $developer_id) {
+        return $this->subscriber->create([
+            'email' => $subscriber['email'],
+            'developer_id' => $developer_id
+        ]);
     }
 
 
