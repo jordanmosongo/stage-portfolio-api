@@ -35,8 +35,13 @@ class SocialNetworkRepository implements SocialNetworkInterface {
      * save a new socialNetwork
      */
 
-    public function save($socialNetwork) {
-        return $this->socialNetwork->create($socialNetwork);
+    public function save($socialNetwork, $developer_id) {
+        return $this->socialNetwork->create([
+            'title' => $socialNetwork['title'],
+            'image' => $socialNetwork['image'],
+            'url' => $socialNetwork['url'],
+            'developer_id' => $developer_id
+        ]);
     }
 
     /**
@@ -44,10 +49,10 @@ class SocialNetworkRepository implements SocialNetworkInterface {
      */
 
     public function update($socialNetwork, $id) {
-        return $this->$socialNetwork->Where(["id" => $id])->update([
+        return $this->socialNetwork->where(["id" => $id])-> update([
             'title' => $socialNetwork['title'],
             'image' => $socialNetwork['image'],
-            'url' => $socialNetwork['url'],
+            'url' => $socialNetwork['url']
         ]);
     }
 

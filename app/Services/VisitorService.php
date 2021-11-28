@@ -2,9 +2,8 @@
 namespace App\Services;
 use Illuminate\Http\Response;
 use App\Repositories\VisitorRepository;
-use App\Interfaces\VisitorInterface;
 
-class VisitorService implements VisitorInterface {
+class VisitorService {
     /**
      * @var $visitorRepository
      */

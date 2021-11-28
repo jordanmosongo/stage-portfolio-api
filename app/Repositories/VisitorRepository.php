@@ -38,6 +38,26 @@ class VisitorRepository implements VisitorInterface {
     }
 
     /**
+     * Get a specific visitor by email
+     */
+    
+    public function findByEmail($email) {
+        return $this->visitor->where(['email' => $email])->get()->first();
+    }
+
+    /**
+     * save a new visitor by id
+     */
+    
+    public function save($data) {
+        return $this->visitor->create([
+                        'name' => $data['name'],
+                        'email' => $data['email'],
+                        'phone' => $data['phone']
+                        ]);
+    }
+
+    /**
      * delete an existing visitor by his id
      */
 

@@ -38,7 +38,7 @@ Route::prefix('/visitor')->group( function () {
 );
 
 /**
- * Manage routes for address
+ * routes for address
  */
 
 Route::prefix('/address')->group( function () {
@@ -49,7 +49,7 @@ Route::prefix('/address')->group( function () {
 );
 
 /**
- * Manage routes for developer
+ * routes for developer
  */
 Route::get('/developers', [DeveloperController::class, 'index']);
 Route::prefix('/developer')->group( function () {
@@ -60,7 +60,7 @@ Route::prefix('/developer')->group( function () {
 );
 
 /**
- * Manage routes for technology
+ * routes for technology
  */
 
 Route::get('/technologies', [TechnologyController::class, 'index']);
@@ -73,20 +73,20 @@ Route::prefix('/technology')->group( function () {
 );
 
 /**
- * Manage routes for project
+ * routes for project
  */
 
 Route::get('/projects', [ProjectController::class, 'index']);
 Route::prefix('/project')->group( function () {
     Route::get('/{id}', [ProjectController::class, 'show']);
-    Route::post('/store', [ProjectController::class, 'store']);
+    Route::post('/store/{developer_id}', [ProjectController::class, 'store']);
     Route::put('/{id}', [ProjectController::class, 'update']);
     Route::delete('/{id}', [ProjectController::class, 'destroy']);
 }
 );
 
 /**
- * Manage routes for social network
+ * routes for social network
  */
 
 Route::get('/socialnetworks', [SocialNetworkController::class, 'index']);
@@ -99,37 +99,32 @@ Route::prefix('/socialnetwork')->group( function () {
 );
 
 /**
- * Manage routes for messages
+ * routes for messages
  */
 
 Route::get('/messages', [MessageController::class, 'index']);
 Route::prefix('/message')->group( function () {
-    //Route::get('/{id}', [MessageController::class, 'show']);
-    Route::post('/store/{developer_id}', [MessageController::class, 'store']);
-    //Route::delete('/{id}', [MessageController::class, 'destroy']);
+      Route::post('/store/{developer_id}', [MessageController::class, 'store']);
 }
 );
 
 /**
- * Manage routes for visitor
+ * routes for visitor
  */
 
 Route::get('/visitors', [VisitorController::class, 'index']);
 Route::prefix('/visitor')->group( function () {
     Route::get('/{id}', [VisitorController::class, 'show']);
-    //Route::delete('/{id}', [VisitorController::class, 'destroy']);
-}
+    }
 );
 
 /**
- * Manage routes for subscriber
+ * routes for subscriber
  */
 
 Route::get('/subscribers', [SubscriberController::class, 'index']);
 Route::prefix('/subscriber')->group( function () {
-    //Route::get('/{id}', [SubscriberController::class, 'show']);
-    Route::post('/store/{developer_id}', [SubscriberController::class, 'store']);
-    //Route::delete('/{id}', [SubscriberController::class, 'destroy']);
+      Route::post('/store/{developer_id}', [SubscriberController::class, 'store']);    
 }
 );
 

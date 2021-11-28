@@ -42,7 +42,6 @@ class TechnologyRepository implements TechnologyInterface {
      */
 
     public function save($technology, $developer_id) {
-
         return $this->technology->create([
             'title' => $technology->title,
             'image' => $technology->image,

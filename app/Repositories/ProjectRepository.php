@@ -41,20 +41,20 @@ class ProjectRepository implements ProjectInterface {
      * Create a new Project
      */
 
-    public function save($project) {
+    public function save($project, $developer_id) {
         $savedproject = $this->project->create([
             'title' => $project['title'],
             'description' => $project['description'],
             'image' => $project['image'],
             'url' => $project['url'],
             'istop' => $project['istop'],
-            'developer_id' => $project['developer_id']
+            'developer_id' => $developer_id
         ]);
-        if($savedProject) {
+        if($savedproject) {
             $savedproject = $this->project->all()->last();
             $savedproject->technologies()->sync($project['technologies_id']);
         }
-        return $savedProject;
+        return $savedproject;
     }
 
     /**

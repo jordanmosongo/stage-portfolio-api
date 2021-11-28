@@ -64,12 +64,12 @@ class ProjectService implements ProjectInterface {
      * @param $Project
      */
 
-    public function save($project) {
+    public function save($project, $developer_id) {
         try {
-            $project = $this->projectRepository->save($project);
+            $project = $this->projectRepository->save($project, $developer_id);
             return response()->json([
                 'message' => 'success !',
-                'data' => $Project
+                'data' => $project
             ], Response::HTTP_CREATED);
         } catch (\Throwable $th) {
             return response()->json([

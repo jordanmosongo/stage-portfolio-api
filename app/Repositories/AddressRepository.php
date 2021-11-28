@@ -36,6 +36,6 @@ class AddressRepository implements AddressInterface {
      */
 
     public function update($address, $id) {
-        return $this->$address->where(['id' => $id])->update($address);
+        return $this->address->where(['id' => $id])->update($address);
     }
 }

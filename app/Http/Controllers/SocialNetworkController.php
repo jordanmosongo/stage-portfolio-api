@@ -30,33 +30,22 @@ class SocialNetworkController extends Controller
     {
         return $this->socialNetworkService->getAll();
     }
+
+    /**
+     * Display a specified social networks.
+    */
+
+    public function show($id)
+    {
+        return $this->socialNetworkService->findById($id);
+    }
     /**
      * create a new social network and store it in storage
     */
 
     public function store(Request $request, $developer_id)
     {
-        $socialNetwork = new SocialNetwork();
-        $socialNetwork->title = $request->socialNetwork['title'];
-        $socialNetwork->image = $request->socialNetwork['image'];
-        $socialNetwork->url = $request->socialNetwork['url'];
-        
-        try {
-            $existingDeveloper = Developer::find($developer_id);
-            
-            $socialNetwork->developer()->associate($existingDeveloper);
-            $socialNetwork->save();
-
-            return response()->json([
-                'message' => 'socialNetwork created successfully !',
-                'data' => $socialNetwork
-            ], Response::HTTP_CREATED);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }    
-
+        return $this->socialNetworkService->save($request->socialNetwork, $developer_id);      
     }
 
     /**
@@ -65,23 +54,14 @@ class SocialNetworkController extends Controller
 
     public function update(Request $request, $id)
     {
-        return $this->socialNetworkService->update($request->developer, $id);
-        // try {
-        //     $socialNetwork = SocialNetwork::Where(["id" => $id])->update([
-        //         'title' => $request->socialNetwork['title'],
-        //         'image' => $request->socialNetwork['image'],
-        //         'url' => $request->socialNetwork['url'],
-        //     ]);
-           
-        //     return response()->json([
-        //         'message' => 'socialNetwork updated successfully !',
-        //         'data' => $socialNetwork
-        //     ], Response::HTTP_OK);
-            
-        // } catch (\Throwable $th) {
-        //     return response()->json([
-        //         'error' => $th,
-        //     ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        // }        
+        return $this->socialNetworkService->update($request->socialNetwork, $id);           
+    }
+
+    /**
+     * delete a specified social network
+     */
+
+    public function destroy($id) {
+        return $this->socialNetworkService->delete($id);
     }
 }

@@ -46,27 +46,6 @@ class AddressController extends Controller
 
     public function update(Request $request, $id)
     {
-        return $this->addressService->update($request->address, $id);
-        // try {
-        //     $updatedAddress = Address::Where(["id" => $id])->update([
-        //         'country' => $request->address['title'],
-        //         'town' => $request->address['town'],
-        //         'commune' => $request->address['commune'],
-        //         'quarter' => $request->address['quarter'],
-        //         'street' => $request->address['street'],
-        //         'number' => $request->address['number'],
-        //         'reference' => $request->address['reference'],
-        //     ]);
-           
-        //     return response()->json([
-        //         'message' => 'project updated successfully !',
-        //         'data' => $updatedAddress
-        //     ], Response::HTTP_OK);
-            
-        // } catch (\Throwable $th) {
-        //     return response()->json([
-        //         'error' => $th,
-        //     ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        // }        
+        return $this->addressService->update($request->address, $id);               
     }
 }

@@ -9,6 +9,8 @@ class Message extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['objet', 'content', 'developer_id', 'visitorId'];
+
     /**
      * Get the develop that receives messages
      */

@@ -13,6 +13,7 @@ class SocialNetworkService implements SocialNetworkInterface {
     /**
      * create an instance of socialNetworkRepository
      */
+
     public function __construct(SocialNetworkRepository $socialNetworkRepository) {
         $this->socialNetworkRepository = $socialNetworkRepository;
     }
@@ -20,8 +21,20 @@ class SocialNetworkService implements SocialNetworkInterface {
     /**
      * get all socialNetworks
      */
-    public function getAll() {
-        return $this->socialNetworkRepository->getAll();
+
+    public function getAll() {        
+        try {
+            $socialNetworks = $this->socialNetworkRepository->getAll();
+            return response()->json([
+                'message' => 'success !',
+                'data' => $socialNetworks
+            ], Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => 'failed !',
+                'data' => $th
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -47,9 +60,9 @@ class SocialNetworkService implements SocialNetworkInterface {
     /**
      * save a new socialNetwork
      */
-    public function save($socialNetwork) {
+    public function save($socialNetwork, $developer_id) {
         try {
-            $socialNetwork = $this->socialNetworkRepository->save($socialNetwork);
+            $socialNetwork = $this->socialNetworkRepository->save($socialNetwork, $developer_id);
             return response()->json([
                 'message' => 'socialNetwork successfully saved !',
                 'data' => $socialNetwork
@@ -75,8 +88,8 @@ class SocialNetworkService implements SocialNetworkInterface {
             ], Response::HTTP_OK);
         } catch (\Throwable $th) {
             return response()->json([
-                'error' => 'failed !',
-                'data' => $th
+                'mesage' => 'failed !',
+                'error' => $th
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
